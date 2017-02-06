@@ -1,0 +1,20 @@
+{
+  "name": "alt-facts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuARK-0/alt-facts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QuARK-0/alt-facts/issues"
+  },
+  "homepage": "https://github.com/QuARK-0/alt-facts#readme"
+}
