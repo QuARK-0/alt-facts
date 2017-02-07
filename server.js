@@ -15,8 +15,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(favicon(path.join(__dirname, 'public/favicon.ico')))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(session({secret: 'keyboard cat', resave: false, saveUninitialized: true}))
-// app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'main', layoutsDir: path.join(__dirname, 'views/layouts/')}))
-// app.set('view engine', 'hbs')
+app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'main', layoutsDir: path.join(__dirname, 'views/layouts/')}))
+app.set('view engine', 'hbs')
 
 // ROUTES
 app.use('/', require('./routes/index'))
