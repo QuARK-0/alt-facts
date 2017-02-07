@@ -1,1 +1,25 @@
-/**/
+/** {
+    font-family: 'Bungee', cursive;
+    font-family: 'Bungee Shade', cursive;
+}*/
+
+#nr {
+    font-family: 'Bungee', cursive;
+}
+#nl {
+    font-family: 'Bungee', cursive;
+}
+button {
+    font-family: 'Bungee', cursive;
+}
+html,
+body {
+    height: 100%;
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+.hero .nav {
+    background: none;
+    box-shadow: none;
+    border-bottom: grey dashed 0.25rem;
+}
