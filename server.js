@@ -22,7 +22,7 @@ app.set('view engine', 'hbs')
 app.use('/', require('./routes/index'))
 app.use('/auth', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
-app.use('/example', require('./routes/example'))
+app.use('/game', require('./routes/game'))
 app.use(require('./routes/error'))
 
 const port = process.env.PORT || 3000

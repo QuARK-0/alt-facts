@@ -22,7 +22,7 @@ router.get('/me', (req, res, next) => {
   request(options, (err, response, body) => {
     const user = JSON.parse(body);
     req.session.user = user;
-    return res.redirect('/profile');
+    return res.redirect('/game');
   })
 });
 
