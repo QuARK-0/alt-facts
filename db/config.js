@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 mongoose.Promise = Promise
-const url = process.env.MONGODB_URI || 'mongodb://localhost/sandbox'
+const url = process.env.MONGODB_URI || 'mongodb://localhost/altfacts'
 
 mongoose.connect(url)
 mongoose.connection.once('open', function () {
