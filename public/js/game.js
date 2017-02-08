@@ -34,6 +34,11 @@ socket.on('question', question => {
       `);
 })
 
+socket.on('timer', num => {
+// console.log(num)
+  $('body').append(num);
+})
+
 socket.on('display-choices', obj => {
   var keyNames = Object.keys(obj);
   // console.log(keyNames);
@@ -52,7 +57,7 @@ function readyHandle(evt) {
     $('body').off('click', '#ready-button', readyHandle);
     $('#welcome-msg').text('waiting for other players to ready up...');
     $('#ready-button').css('visibility', 'hidden');
-    socket.emit('ready', 1);
+    socket.emit('ready');
 }
 
 $('body').on('click', '#ready-button', readyHandle);

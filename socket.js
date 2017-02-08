@@ -15,6 +15,7 @@ module.exports = function(io) {
     console.log('from socket.js: a user connected');
     // console.log(req.session.user);
     // console.log('from socket.js', socket.user);
+    // console.log(io);
 
 
     socket.on('send-id', id => {
@@ -31,6 +32,11 @@ module.exports = function(io) {
           //send message to user who just connected
           // var welcomeUser = `Welcome, ${socket.userName}!`;
           socket.emit('welcome-msg', user[0]); //sends the user object from mongoose
+
+          //sends message to anyone whos already connected
+          var welcomeJoined = `${user[0].userName} has Joined`;
+          socket.broadcast.emit('user-join', welcomeJoined);
+
         }
       })
 
@@ -38,14 +44,13 @@ module.exports = function(io) {
 
     })
 
-    console.log('socket.js outside', socket.userName);
+    // console.log('socket.js outside', socket.userName);
 
-    //sends message to anyone whos already connected
-    var welcomeJoined = 'A New User has Joined';
-    socket.broadcast.emit('user-join', welcomeJoined);
 
-    socket.on('ready', num => {
-      readyUsers += num;
+    socket.on('ready', () => {
+      // readyUsers += num;
+      // console.log('on ready socket object', socket)
+      readyUsers++
     //   console.log(readyUsers);
       if (readyUsers === 2) {
         request('http://jservice.io/api/random?count=10', (err, response, body) => {
@@ -55,6 +60,21 @@ module.exports = function(io) {
           var msg = list.shift();
           answerObj.trueAns = msg.answer;
           io.emit('question', msg.question);
+
+          //timer code
+          var timerCount = 20;
+
+          var timerID = setInterval(timerFunc, 1000)
+
+          function timerFunc() {
+            timerCount -= 1;
+            if (timerCount <= 0) {
+              clearInterval(timerID)
+              return
+            }
+            io.emit('timer', timerCount)
+          }
+
         });
       }
     })
