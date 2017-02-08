@@ -68,7 +68,9 @@ module.exports = function(io) {
     })
 
     socket.on('send-selection', selection => {
-        
+        if (selection.answer === answerObj.trueAns) {
+            console.log('ur right')
+        }
     })
 
     socket.on('disconnect', () => {
