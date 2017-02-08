@@ -7,13 +7,21 @@ module.exports = function(io) {
     // console.log(req.session.user);
     // console.log('from socket.js', socket.user);
 
+    // User.find({})
+
     socket.on('send-name', name => {
+      // gets name from client-side script
       console.log('name from socket.js', name);
+      socket.userName = name;
+      //send message to user who just connected
+      var welcomeUser = `Welcome ${socket.userName}`;
+      socket.emit('welcome-msg', welcomeUser);
     })
 
-    //send message to user who just connected
-    var welcomeUser = 'Welcome Unique User';
-    socket.emit('welcome-msg', welcomeUser);
+      console.log('socket.js outside', socket.userName);
+
+
+
 
 
     //sends message to anyone whos already connected
