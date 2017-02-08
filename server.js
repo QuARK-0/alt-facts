@@ -6,7 +6,12 @@ const session = require('express-session')
 const hbs = require('express-handlebars')
 const morgan = require('morgan')
 const path = require('path')
-const app = express()
+const app = express();
+
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+
 
 // CONFIG
 require('./db/config')
@@ -18,6 +23,9 @@ app.use(session({secret: 'keyboard cat', resave: false, saveUninitialized: true}
 app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'main', layoutsDir: path.join(__dirname, 'views/layouts/')}))
 app.set('view engine', 'hbs')
 
+//SOCKETS
+require('./socket')(io);
+
 // ROUTES
 app.use('/', require('./routes/index'))
 app.use('/auth', require('./routes/auth'));
@@ -25,7 +33,8 @@ app.use('/profile', require('./routes/profile'));
 app.use('/game', require('./routes/game'))
 app.use(require('./routes/error'))
 
+
 const port = process.env.PORT || 3000
-app.listen(port, () => {
-  console.log(`Listening on ${port}`)
+http.listen(port, () => {
+  console.log(`Listening on *: ${port}`)
 })
