@@ -32,6 +32,7 @@ app.use('/', require('./routes/index'))
 app.use('/auth', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/game', require('./routes/game'))
+app.use('/socket', require('./socket'))
 app.use(require('./routes/error'))
 
 

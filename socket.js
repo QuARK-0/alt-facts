@@ -1,5 +1,10 @@
+const express = require('express');
+const request = require('request');
+const router = express.Router();
+
 var readyUsers = 0;
 var answerObj = {};
+var list;
 
 //being required in server.js
 module.exports = function(io) {
@@ -30,16 +35,19 @@ module.exports = function(io) {
       readyUsers += num;
       console.log(readyUsers);
       if (readyUsers === 2) {
-        var question = 'Know the meaning of fast?'
-        io.emit('question', question);
+        request('http://jservice.io/api/random?count=10', (err, response, body) => {
+          list = JSON.parse(body);
+          // maybe store questions into database
+          console.log(list[0]); //displays first question in array
+          var msg = list.shift();
+          answerObj.trueAns = msg.answer;
+          io.emit('question', msg.question);
+        });
       }
     })
 
     socket.on('send-answer', answer => {
       answerObj[answer] = answer;
-      var trueAns = 'RIGHT ANSWER';
-      answerObj.trueAns = trueAns;
-      console.log(answerObj);
       if (Object.keys(answerObj).length === 3) {
         io.emit('display-choices', answerObj);
       }
