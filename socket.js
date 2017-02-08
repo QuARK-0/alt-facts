@@ -1,6 +1,8 @@
 const express = require('express');
 const request = require('request');
 const router = express.Router();
+require('./db/config');
+const User = require('./models/user.js')
 
 var readyUsers = 0;
 var answerObj = {};
@@ -14,12 +16,22 @@ module.exports = function(io) {
     // console.log(req.session.user);
     // console.log('from socket.js', socket.user);
 
-    // User.find({})
 
-    socket.on('send-name', name => {
+    socket.on('send-id', id => {
       // gets name from client-side script
-      console.log('name from socket.js', name);
-      socket.userName = name;
+      console.log('id from socket.js', id);
+      socket.userName = id;
+
+      User.find({
+        googleId: id
+      }, (err, user) => {
+        if (err) {
+          throw (err);
+        }
+        else {
+          console.log(user);
+        }
+      })
 
       //send message to user who just connected
       var welcomeUser = `Welcome, ${socket.userName}!`;

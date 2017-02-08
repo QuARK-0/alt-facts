@@ -1,4 +1,5 @@
-require('./config');
+// require('../db/config')
+var mongoose = require('mongoose');
 var User = require('./user.js');
 
 var GameSchema = new mongoose.Schema({
