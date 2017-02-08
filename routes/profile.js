@@ -1,4 +1,3 @@
-
 const express = require('express');
 const request = require('request');
 const router = express.Router();
@@ -22,6 +21,7 @@ router.get('/me', (req, res, next) => {
   request(options, (err, response, body) => {
     const user = JSON.parse(body);
     req.session.user = user;
+    // console.log(req.session.user);
     return res.redirect('/game');
   })
 });

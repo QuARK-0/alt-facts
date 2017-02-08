@@ -6,7 +6,10 @@ router.get('/', (req, res, next) => {
   // const user = req.session.user;
   // if (!user) return res.redirect('/');
   // console.log(user)
-  res.render('game');
+  console.log('from game.js', req.session.user); //prints user from sessions
+  // console.log('from game.js');
+  var name = req.session.user.displayName;
+  res.render('game', {data: name} );
 });
 
 

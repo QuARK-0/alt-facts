@@ -26,6 +26,7 @@ app.set('view engine', 'hbs')
 //SOCKETS
 require('./socket')(io);
 
+
 // ROUTES
 app.use('/', require('./routes/index'))
 app.use('/auth', require('./routes/auth'));
