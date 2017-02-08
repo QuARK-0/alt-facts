@@ -67,6 +67,14 @@ module.exports = function(io) {
       }
     })
 
+    socket.on('send-selection', selection => {
+        if (selection.answer === answerObj.trueAns) {
+            console.log('ur right')
+            var correct = 'ur right'
+            // socket.boradcast.emit('correct', correct)
+        }
+    })
+
     socket.on('disconnect', () => {
       console.log('a user disconnected');
     })
