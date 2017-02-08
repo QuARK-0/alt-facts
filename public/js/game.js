@@ -1,4 +1,4 @@
-console.log('hi from game.js');
+// console.log('hi from game.js');
 
 var socket = io();
 
@@ -13,7 +13,7 @@ socket.on('welcome-msg', welcome => {
 })
 
 socket.on('user-join', msg => {
-  $('.connected-users').append(`<h6>${msg}</h6>`);
+  $('.connected-users').append(`<p><small>${msg}</small></p>`);
 })
 
 socket.on('question', question => {
@@ -33,7 +33,7 @@ socket.on('question', question => {
 
 socket.on('display-choices', obj => {
   var keyNames = Object.keys(obj);
-  console.log(keyNames);
+  // console.log(keyNames);
   //input field still on the right side of displayed answers due
   //to visibility hidden on line 38
   for (var i = 0; i < keyNames.length; i++) {
@@ -45,7 +45,7 @@ socket.on('display-choices', obj => {
 
 
 function readyHandle(evt) {
-    console.log('haha clicked');
+    // console.log('haha clicked');
     $('body').off('click', '#ready-button', readyHandle);
     $('#welcome-msg').text('waiting for other players to ready up...');
     $('#ready-button').css('visibility', 'hidden');
@@ -55,8 +55,11 @@ function readyHandle(evt) {
 $('body').on('click', '#ready-button', readyHandle);
 
 function answerHandle(evt) {
-    var userAnswer = $('.answer-input').val();
-    console.log(userAnswer);
+    var userAnswer = {
+        userName: nameUser,
+        answer: $('.answer-input').val()
+    };
+    console.log('user answer ', userAnswer);
     $('body').off('click', '.answer-button', answerHandle);
     $('.answer-input').val('');
     $('.answer-input').css('display', 'none');
@@ -65,3 +68,14 @@ function answerHandle(evt) {
 }
 
 $('body').on('click', '.answer-button', answerHandle);
+
+$('#game-container').click( event => {
+    var selection = {
+        answer: $(event.target).text(),
+        id: $(event.target).attr('id')
+    }
+    console.log('value ', selection)
+
+    // socket.emit('send-selection', selection)
+    // console.log('id ', event.target.attr('id'))
+})
