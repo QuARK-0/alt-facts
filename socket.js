@@ -67,6 +67,10 @@ module.exports = function(io) {
       }
     })
 
+    socket.on('send-selection', selection => {
+        
+    })
+
     socket.on('disconnect', () => {
       console.log('a user disconnected');
     })

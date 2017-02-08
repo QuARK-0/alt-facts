@@ -38,7 +38,7 @@ socket.on('display-choices', obj => {
   //to visibility hidden on line 38
   for (var i = 0; i < keyNames.length; i++) {
     $('#welcome-msg').after(`
-        <button class="button" id="${i}">${obj[keyNames[i]]}</button>
+        <button class="button answers" id="${i}">${obj[keyNames[i]]}</button>
         `)
   }
 })
@@ -56,7 +56,7 @@ $('body').on('click', '#ready-button', readyHandle);
 
 function answerHandle(evt) {
     var userAnswer = {
-        userName: nameUser,
+        userName: userGId,
         answer: $('.answer-input').val()
     };
     console.log('user answer ', userAnswer);
@@ -69,13 +69,14 @@ function answerHandle(evt) {
 
 $('body').on('click', '.answer-button', answerHandle);
 
-$('#game-container').click( event => {
+$('#game-container').on('click', '.answers', event => {
     var selection = {
         answer: $(event.target).text(),
         id: $(event.target).attr('id')
     }
     console.log('value ', selection)
-
-    // socket.emit('send-selection', selection)
+    // $(event.target).
+    console.log('selection sent')
+    socket.emit('send-selection', selection)
     // console.log('id ', event.target.attr('id'))
 })
