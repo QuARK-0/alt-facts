@@ -19,9 +19,6 @@ module.exports = function(io) {
 
     socket.on('send-id', id => {
       // gets name from client-side script
-      console.log('id from socket.js', id);
-      socket.userName = id;
-
       User.find({
         googleId: id
       }, (err, user) => {
@@ -30,12 +27,15 @@ module.exports = function(io) {
         }
         else {
           console.log(user);
+          console.log('id from socket.js', id);
+          //send message to user who just connected
+          // var welcomeUser = `Welcome, ${socket.userName}!`;
+          socket.emit('welcome-msg', user[0]); //sends the user object from mongoose
         }
       })
 
-      //send message to user who just connected
-      var welcomeUser = `Welcome, ${socket.userName}!`;
-      socket.emit('welcome-msg', welcomeUser);
+
+
     })
 
     console.log('socket.js outside', socket.userName);
