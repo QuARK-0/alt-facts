@@ -2,8 +2,8 @@ console.log('hi from game.js');
 
 var socket = io();
 
-console.log('my name from game.js', nameUser); // logged in session user
-socket.emit('send-name', nameUser);
+console.log('my name from game.js', userGId); // logged in session user
+socket.emit('send-id', userGId);
 
 socket.on('welcome-msg', welcome => {
   $('#welcome-msg').text(welcome);
