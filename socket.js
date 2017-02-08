@@ -7,6 +7,7 @@ const User = require('./models/user.js')
 var readyUsers = 0;
 var answerObj = {};
 var list;
+var user = 'player';
 
 //being required in server.js
 module.exports = function(io) {
@@ -33,7 +34,7 @@ module.exports = function(io) {
       })
 
       //send message to user who just connected
-      var welcomeUser = `Welcome ${socket.userName}`;
+      var welcomeUser = `Welcome, ${socket.userName}!`;
       socket.emit('welcome-msg', welcomeUser);
     })
 
@@ -45,12 +46,12 @@ module.exports = function(io) {
 
     socket.on('ready', num => {
       readyUsers += num;
-      console.log(readyUsers);
+    //   console.log(readyUsers);
       if (readyUsers === 2) {
         request('http://jservice.io/api/random?count=10', (err, response, body) => {
           list = JSON.parse(body);
           // maybe store questions into database
-          console.log(list[0]); //displays first question in array
+        //   console.log(list[0]); //displays first question in array
           var msg = list.shift();
           answerObj.trueAns = msg.answer;
           io.emit('question', msg.question);
@@ -59,7 +60,8 @@ module.exports = function(io) {
     })
 
     socket.on('send-answer', answer => {
-      answerObj[answer] = answer;
+        user += '1';
+      answerObj[user] = answer.answer;
       if (Object.keys(answerObj).length === 3) {
         io.emit('display-choices', answerObj);
       }
