@@ -2,13 +2,14 @@
     font-family: 'Bungee', cursive;
     font-family: 'Bungee Shade', cursive;
 }*/
+input {
+    font-family: 'Bungee', cursive;
+}
 
-#nr {
+* {
     font-family: 'Bungee', cursive;
 }
-#nl {
-    font-family: 'Bungee', cursive;
-}
+
 button {
     font-family: 'Bungee', cursive;
 }

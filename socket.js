@@ -21,7 +21,7 @@ module.exports = function(io) {
       socket.userName = name;
 
       //send message to user who just connected
-      var welcomeUser = `Welcome ${socket.userName}`;
+      var welcomeUser = `Welcome, ${socket.userName}!`;
       socket.emit('welcome-msg', welcomeUser);
     })
 
