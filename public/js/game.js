@@ -2,11 +2,14 @@
 
 var socket = io();
 
+var user;
+
 console.log('my name from game.js', userGId); // logged in session user
 socket.emit('send-id', userGId);
 
-socket.on('welcome-msg', welcome => {
-  $('#welcome-msg').text(welcome);
+socket.on('welcome-msg', userObj => {
+  user = userObj; // saves user object to the global user variable
+  $('#welcome-msg').text(`Welcome, ${user.userName}!`);
   $('#welcome-msg').after(`
       <button class="button" id="ready-button">Ready?</button>
       `)
@@ -56,7 +59,8 @@ $('body').on('click', '#ready-button', readyHandle);
 
 function answerHandle(evt) {
     var userAnswer = {
-        userName: userGId,
+
+        userName: user.userName, //pulls name from global user object
         answer: $('.answer-input').val()
     };
     console.log('user answer ', userAnswer);
