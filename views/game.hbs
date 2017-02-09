@@ -1,0 +1,53 @@
+<div class="container">
+
+    <section class="hero is-fullheight">
+        <!-- Hero header: will stick at the top -->
+        <div class="hero-head">
+            <header class="nav">
+                <div class="container">
+                    <div class="nav-left" id="nl">
+                        <a class="nav-item" href="/">
+                            alt-facts
+                        </a>
+
+                    </div>
+                    <span class="nav-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                    <div class="nav-right nav-menu" id="nr">
+                        <a href="/profile" class="nav-item">
+                            profile
+                        </a>
+                        <a class="nav-item">
+                            logout
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+
+        <div class="timer">
+            <h6>Timer: <span class="timer-value"></span></h6>
+        </div>
+
+        <!-- Hero content: will be in the middle -->
+        <div class="hero-body">
+            <div class="container has-text-centered content" id="game-container">
+                <h6 id="welcome-msg"></h6>
+                <div class="connected-users"></div>
+            </div>
+        </div>
+</div>
+
+<script>
+var userGId = "{{data}}"
+// console.log(nameUser);
+// console.log("{{data}}")
+//the req.session.user data is supposed to go here as rendered data
+</script>
+{{!-- < //script game.js which is socket js code> --}}
+{{!-- <script src="../public/js/game"></script> --}}
+<script src="/js/game.js"></script>

@@ -9,6 +9,7 @@
                         <a class="nav-item">
                             alt-facts
                         </a>
+
                     </div>
                     <span class="nav-toggle">
                         <span></span>
@@ -16,6 +17,9 @@
                         <span></span>
                     </span>
                     <div class="nav-right nav-menu" id="nr">
+                        <a href="/profile" class="nav-item">
+                            profile
+                        </a>
                         <a class="nav-item">
                             logout
                         </a>
@@ -23,15 +27,18 @@
                 </div>
             </header>
         </div>
-
         <!-- Hero content: will be in the middle -->
         <div class="hero-body">
-            <div class="container has-text-centered">
-                <form action="/auth/login" method="GET">
-                    <button class="button is-danger">login with google</button>
+            <div class="container has-text-centered content" id="game-container">
+              <h1>My User Profile Data</h1>
+              <p>Username: <span class="username-text">{{user.userName}}</span></p> <button class="username-button">Update</button>
+              <p>Name: {{user.f_name}} {{user.l_name}}</p>
+              <p>Email: {{user.email}}</p>
+              <a href="/game">Return to Game</a>
 
-                </form>
 
             </div>
         </div>
 </div>
+
+<script src="/js/profile.js"></script>
