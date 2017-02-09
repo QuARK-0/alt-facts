@@ -4,6 +4,7 @@ const router = express.Router();
 require('./db/config');
 const User = require('./models/user.js')
 
+var connectedUsers = 0;
 var readyUsers = 0;
 var answerObj = {};
 var list;
@@ -13,6 +14,12 @@ var user = 'player';
 module.exports = function(io) {
   io.on('connection', socket => {
     console.log('from socket.js: a user connected');
+    connectedUsers++;
+    console.log('connected users', connectedUsers);
+    if (connectedUsers > 2) {
+      var maxRoomUrl = "http://google.com/"
+      socket.emit('redirect', maxRoomUrl);
+    }
     // console.log(req.session.user);
     // console.log('from socket.js', socket.user);
     // console.log(io);
@@ -48,10 +55,9 @@ module.exports = function(io) {
 
 
     socket.on('ready', () => {
-      // readyUsers += num;
-      // console.log('on ready socket object', socket)
       readyUsers++
-    //   console.log(readyUsers);
+      console.log('connected users', connectedUsers);
+      console.log('ready users', readyUsers);
       if (readyUsers === 2) {
         request('http://jservice.io/api/random?count=10', (err, response, body) => {
           list = JSON.parse(body);
@@ -69,6 +75,10 @@ module.exports = function(io) {
           function timerFunc() {
             timerCount -= 1;
             if (timerCount < 0) {
+              clearInterval(timerID)
+              return
+            }
+            if (connectedUsers === 0) {
               clearInterval(timerID)
               return
             }
@@ -98,6 +108,12 @@ module.exports = function(io) {
 
     socket.on('disconnect', () => {
       console.log('a user disconnected');
+      connectedUsers--;
+      if (readyUsers > connectedUsers) {
+        readyUsers = connectedUsers;
+      }
+      console.log('connected users', connectedUsers);
+      console.log('ready users', readyUsers);
     })
   })
 }

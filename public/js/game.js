@@ -109,3 +109,7 @@ $('#game-container').on('click', '.answers', event => {
     socket.emit('send-selection', selection)
     // console.log('id ', event.target.attr('id'))
 })
+
+socket.on('redirect', url => {
+  window.location.replace(url);
+})
