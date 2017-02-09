@@ -36,10 +36,26 @@ socket.on('question', question => {
 
 socket.on('timer', num => {
 // console.log(num)
-  $('body').append(num);
+  $('.timer').css('visibility', 'visible')
+  $('.timer-value').text(num);
+  if (num === 0) {
+    var userAnswer = {
+        userName: user.googleId, //pulls name from global user object
+        answer: 'OMGUHAD20'
+    };
+    console.log('user answer ', userAnswer);
+    $('body').off('click', '.answer-button', answerHandle);
+    $('.answer-input').val('');
+    $('.answer-input').css('display', 'none');
+    $('.answer-button').css('visibility', 'hidden');
+    $('.timer').css('visibility', 'hidden')
+    socket.emit('send-answer', userAnswer);
+  }
+
 })
 
 socket.on('display-choices', obj => {
+  // $('.timer').css('visibility', 'hidden') // not working
   var keyNames = Object.keys(obj);
   // console.log(keyNames);
   //input field still on the right side of displayed answers due
@@ -49,6 +65,7 @@ socket.on('display-choices', obj => {
         <button class="button answers" id="a${i}">${obj[keyNames[i]]}</button>
         `)
   }
+
 })
 
 
@@ -74,6 +91,8 @@ function answerHandle(evt) {
     $('.answer-input').css('display', 'none');
     $('.answer-button').css('visibility', 'hidden');
     socket.emit('send-answer', userAnswer);
+    $('.timer').css('visibility', 'hidden') // not working
+    socket.off('timer')
 }
 
 $('body').on('click', '.answer-button', answerHandle);

@@ -62,13 +62,13 @@ module.exports = function(io) {
           io.emit('question', msg.question);
 
           //timer code
-          var timerCount = 20;
+          var timerCount = 21;
 
           var timerID = setInterval(timerFunc, 1000)
 
           function timerFunc() {
             timerCount -= 1;
-            if (timerCount <= 0) {
+            if (timerCount < 0) {
               clearInterval(timerID)
               return
             }
@@ -82,6 +82,7 @@ module.exports = function(io) {
     socket.on('send-answer', answer => {
         user += '1';
       answerObj[user] = answer.answer;
+      console.log(answerObj);
       if (Object.keys(answerObj).length === 3) {
         io.emit('display-choices', answerObj);
       }

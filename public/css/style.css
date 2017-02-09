@@ -24,3 +24,12 @@ body {
     box-shadow: none;
     border-bottom: grey dashed 0.25rem;
 }
+
+.timer>h6 {
+  float: right;
+}
+
+.timer {
+  visibility: hidden;
+  transition: .5s;
+}
