@@ -53,6 +53,10 @@ socket.on('display-choices', obj => {
   }
 })
 
+socket.on('who-answered', obj => {
+    console.log(obj)
+})
+
 
 function readyHandle(evt) {
     // console.log('haha clicked');

@@ -5,6 +5,7 @@ require('./db/config');
 const User = require('./models/user.js')
 
 var readyUsers = 0;
+var userObj = {};
 var answerObj = {};
 var list;
 // var user = 'player';
@@ -64,20 +65,26 @@ module.exports = function(io) {
       answerObj[answer.userName] = {
           answer: answer.answer
       };
+      userObj[answer.userName] = {
+          answer: answer.answer
+      };
       if (Object.keys(answerObj).length === 3) {
         io.emit('display-choices', answerObj);
       }
     })
 
     socket.on('send-selection', selection => {
-        console.log('answerObj @ selection.userName selected ', answerObj[selection.userName])
+        // console.log('answerObj @ selection.userName selected ', answerObj[selection.userName])
         answerObj[selection.userName].selected = selection.selected
-        console.log('answerObj @ selection.userName selected ', answerObj)
+        userObj[selection.userName].selected = selection.selected;
+        console.log('userObj ', userObj)
+        // console.log('answerObj @ selection.userName selected ', answerObj)
         // console.log(answerObj[selection.user], answerObj[selection.user].answer)
-        if (answerObj[selection.userName].selected === 2) {
 
+        if (haveAllUsersSelected(userObj)) {
+            console.log('who-answered server side');
+            io.emit('who-answered', userObj);
         }
-
 
         if (selection.selected === answerObj.trueAns.answer) {
             console.log('ur right')
@@ -89,5 +96,21 @@ module.exports = function(io) {
     socket.on('disconnect', () => {
       console.log('a user disconnected');
     })
-  })
+
+    })
+
+    function haveAllUsersSelected(userObj) {
+
+        var objKeysArray = Object.keys(userObj);
+        var tester = true;
+
+        for (var j = 0; j < objKeysArray.length; j++) {
+            var held = userObj[objKeysArray[j]];
+            if (Object.keys(held).length !== 2) {
+                tester = false;
+                console.log(tester);
+            }
+        }
+        return tester;
+    }
 }
