@@ -66,7 +66,8 @@ socket.on('timer', num => {
 		$('.answer-input').val('');
 		$('.answer-input').css('display', 'none')
 		$('.answer-button').css('visibility', 'hidden');
-		$('.timer').animateCss('fadeOut').css('visibility', 'hidden')
+    // $('.timer').animateCss('fadeOut').css('visibility', 'hidden')
+		$('.timer').css('visibility', 'hidden')
 		socket.emit('send-answer', userAnswer);
 	}
 
@@ -170,3 +171,9 @@ $('#game-container').on('click', '.answers', event => {
 	console.log('selection sent');
 	socket.emit('send-selection', selection);
 })
+
+// socket.on('redirect', url => {
+//   // socket.emit('success-redirect');
+//   socket.disconnect();
+//   window.location.pathname = '/';
+// })

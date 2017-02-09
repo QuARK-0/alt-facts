@@ -4,6 +4,7 @@ const router = express.Router();
 require('./db/config');
 const User = require('./models/user.js')
 
+var connectedUsers = 0;
 var readyUsers = 0;
 var userObj = {};
 var answerObj = {};
@@ -12,11 +13,21 @@ var numRounds = 2;
 
 //being required in server.js
 module.exports = function(io) {
-
   io.on('connection', socket => {
     console.log('from socket.js: a user connected');
+    connectedUsers++;
+    console.log('connected users', connectedUsers);
+    if (connectedUsers > 2) {
+      // var maxRoomUrl = "http://google.com/"
+      // socket.emit('redirect', maxRoomUrl);
+      socket.disconnect();
+      connectedUsers--;
+      console.log('connected users', connectedUsers);
+      console.log('ready users', readyUsers);
+    }
     // console.log(req.session.user);
     // console.log('from socket.js', socket.user);
+    // console.log(io);
 
 
     socket.on('send-id', id => {
@@ -27,13 +38,14 @@ module.exports = function(io) {
       // gets name from client-side script
       User.find({
         googleId: id
-    }, (err, user) => {
+      }, (err, user) => {
         if (err) {
           throw (err);
         }
         else {
           // console.log(user);
           // console.log('id from socket.js', id);
+
           //send message to user who just connected
           // var welcomeUser = `Welcome, ${socket.userName}!`;
           socket.emit('welcome-msg', user[0]); //sends the user object from mongoose
@@ -43,6 +55,7 @@ module.exports = function(io) {
           socket.broadcast.emit('user-join', welcomeJoined);
         }
       })
+
     })
 
     // console.log('socket.js outside', socket.userName);
@@ -53,7 +66,7 @@ module.exports = function(io) {
 
     socket.on('ready', num => {
       var msg;
-      readyUsers += num;
+      readyUsers++
       console.log('READY Users >>> for ', readyUsers, 'LIST size ', list.length)
       if (readyUsers === 2 && list.length > 0) {
         console.log('READY Users inside if() ', readyUsers)
@@ -70,6 +83,7 @@ module.exports = function(io) {
         //   console.log(list[0]); //displays first question in array
           msg = list.shift();
           answerObj.trueAns = { answer: msg.answer };
+
           io.emit('question', msg.question);
 
           //timer code
@@ -83,6 +97,12 @@ module.exports = function(io) {
               clearInterval(timerID)
               return
             }
+
+            if (connectedUsers === 0) {
+              clearInterval(timerID)
+              return
+            }
+
             io.emit('timer', timerCount)
           }
         });
@@ -96,6 +116,7 @@ module.exports = function(io) {
       };
       userObj[answer.userName].answer = answer.answer;
       // console.log('ANSWEROBJECT >>>', answerObj)
+
       if (Object.keys(answerObj).length === 3) {
         io.emit('display-choices', answerObj);
       }
@@ -112,9 +133,11 @@ module.exports = function(io) {
         if (haveAllUsersSelected(userObj)) {
           // console.log('show-answers server side');
           io.emit('show-answers', userObj);
+          // or who-answered - from merge
         }
 
         if (selection.selected === answerObj.trueAns.answer) {
+
         console.log('ur right')
         var correct = 'ur right'
         // socket.boradcast.emit('correct', correct)
@@ -145,13 +168,20 @@ module.exports = function(io) {
       }
     });
 
-    socket.on('disconnect', () => {
-      console.log('a user disconnected, readyUsers : ', readyUsers);
+     socket.on('disconnect', () => {
+      console.log('a user disconnected');
+      connectedUsers--;
+      if (readyUsers > connectedUsers) {
+        readyUsers = connectedUsers;
+      }
+      console.log('connected users', connectedUsers);
+      console.log('ready users', readyUsers);
     })
 
   })
 
   function haveAllUsersSelected(userObj) {
+
     var objKeysArray = Object.keys(userObj);
     var tester = true;
 
@@ -161,6 +191,7 @@ module.exports = function(io) {
             tester = false;
             // console.log(tester);
         }
+
     }
     return tester;
   }
