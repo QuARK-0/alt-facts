@@ -1,0 +1,48 @@
+<div class="container">
+
+    <section class="hero is-fullheight">
+        <div class="hero-head">
+            <header class="nav">
+                <div class="container">
+                    <div class="nav-center is-hidden-desktop">
+                        <a href="#" class="nav-item nav-logo">alt-facts</a>
+                    </div>
+                    <div class="nav-left is-hidden-touch" id="nl">
+                        <a class="nav-item nav-logo" href='/'>
+                            alt-facts
+                        </a>
+
+                    </div>
+
+                    <div class="nav-right nav-menu is-hidden-mobile" id="nr">
+                    <div class="nav-right nav-menu" id="nr">
+                        <a href="/profile" class="nav-item">
+                            profile
+                        </a>
+                        <a class="nav-item">
+                            logout
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+
+        <div class="timer">
+            <h6>Timer: <span class="timer-value"></span></h6>
+        </div>
+
+        <div class="hero-body">
+            <div class="container has-text-centered content" id="game-container">
+                <h5 id="welcome-msg"></h5>
+                <br>
+
+                <div class="connected-users"></div>
+            </div>
+        </div>
+</div>
+
+<script>
+    var userGId = "{{data}}"
+</script>
+<script src="/js/game.js"></script>

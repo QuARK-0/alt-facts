@@ -1,0 +1,52 @@
+/** {
+    font-family: 'Bungee', cursive;
+    font-family: 'Bungee Shade', cursive;
+}*/
+
+input {
+  font-family: 'Bungee', cursive;
+}
+
+* {
+  font-family: 'Bungee', cursive;
+}
+
+button {
+  font-family: 'Bungee', cursive;
+}
+
+html, body {
+  height: 100%;
+  font-size: 1.25rem;
+  /*line-height: 1.5;*/
+}
+
+h6 {
+  font-size: 1em;
+}
+
+.hero .nav {
+  background: none;
+  box-shadow: none;
+  border-bottom: grey dashed 0.2rem;
+}
+
+.timer>h6 {
+  float: right;
+  padding: 1em 1em;
+}
+
+.timer {
+  visibility: hidden;
+  transition: .5s;
+}
+
+.nav-logo {
+    font-size: 1.25em;
+    /*padding-top: 0.5rem;
+    padding-bottom: 0.5rem;*/
+}
+header {
+    margin: 0 auto;
+    width: 90%;
+}

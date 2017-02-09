@@ -1,0 +1,42 @@
+<div class="container">
+
+    <section class="hero is-fullheight">
+        <!-- Hero header: will stick at the top -->
+        <div class="hero-head">
+            <header class="nav">
+                <div class="container">
+                    <div class="nav-left" id="nl">
+                        <a class="nav-item">
+                            alt-facts
+                        </a>
+
+                    </div>
+                    <span class="nav-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                    <div class="nav-right nav-menu" id="nr">
+                        <a href="/profile" class="nav-item">
+                            profile
+                        </a>
+                        <a class="nav-item">
+                            logout
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <!-- Hero content: will be in the middle -->
+        <div class="hero-body">
+            <div class="container has-text-centered content" id="game-container">
+              <h1>My User Profile Data</h1>
+              <p>Username: <span class="username-text">{{user.userName}}</span></p> <button class="username-button">Update</button>
+              <p>Name: {{user.f_name}} {{user.l_name}}</p>
+              <p>Email: {{user.email}}</p>
+              <a href="/game">Return to Game</a>
+            </div>
+        </div>
+</div>
+
+<script src="/js/profile.js"></script>
