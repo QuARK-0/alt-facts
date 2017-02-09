@@ -4,6 +4,15 @@ var socket = io();
 
 var user;
 
+$.fn.extend({
+    animateCss: function (animationName) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function() {
+            $(this).removeClass('animated ' + animationName);
+        });
+    }
+});
+
 
 console.log('my name from game.js', userGId); // logged in session user
 socket.emit('send-id', userGId);
@@ -12,7 +21,7 @@ socket.on('welcome-msg', userObj => {
 	user = userObj; // saves user object to the global user variable
 	$('#welcome-msg')
 		.text(`Welcome, ${user.userName}!`);
-	$('#welcome-msg')
+	$('#welcome-msg').animateCss('bounceIn')
 		.after(`
       <button class="button" id="ready-button">Ready?</button>
       `)
@@ -81,16 +90,7 @@ socket.on('who-answered', obj => {
 
 
 function readyHandle(evt) {
-	// console.log('haha clicked');
-	// <<<<<<< HEAD
-	//     $('body')
-	//         .off('click', '#ready-button', readyHandle);
-	//     $('#welcome-msg')
-	//         .text('waiting for other players to ready up...');
-	//     $('#ready-button')
-	//         .css('visibility', 'hidden');
-	//     socket.emit('ready', 1);
-	// =======
+
 	$('body')
 		.off('click', '#ready-button', readyHandle);
 	$('#welcome-msg')
@@ -98,7 +98,6 @@ function readyHandle(evt) {
 	$('#ready-button')
 		.css('visibility', 'hidden');
 	socket.emit('ready');
-	// >>>>>>> 458fd21b5b96bc879c3a8d16220c599a0ab10204
 }
 
 $('body').on('click', '#ready-button', readyHandle);
