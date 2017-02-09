@@ -19,13 +19,13 @@ socket.emit('send-id', userGId);
 
 socket.on('welcome-msg', userObj => {
 	user = userObj; // saves user object to the global user variable
-    // $('.hero-head').animateCss('bounceIn')
+    // $('.hero-head').
 	$('#welcome-msg')
 		.text(`Welcome, ${user.userName}!`);
 	$('#welcome-msg')
 		.after(`
       <button class="button" id="ready-button">Ready?</button>
-      `).animateCss('bounceIn')
+      `)
 })
 
 socket.on('user-join', msg => {
@@ -38,9 +38,9 @@ socket.on('question', question => {
   $('#ques-container').remove();
 
 	$('.connected-users')
-		.css('visibility', 'hidden').animateCss('fadeOut');
+		.css('visibility', 'hidden')
 	$('#welcome-msg')
-		.text(question).animateCss('bounceIn');
+		.text(question)
   $('#welcome-msg')
     .after(`
       <div id="ques-container" class="container">
@@ -49,12 +49,12 @@ socket.on('question', question => {
               <button class="answer-button button">Submit</button>
           </p>
       </div>
-      `).animateCss('bounceIn');
+      `)
 })
 
 socket.on('timer', num => {
 	// console.log(num)
-	$('.timer').css('visibility', 'visible').animateCss('bounceIn')
+	$('.timer').css('visibility', 'visible')
 	$('.timer-value').text(num);
 	if (num === 0) {
 		var userAnswer = {
@@ -122,9 +122,9 @@ function readyHandle(evt) {
 	$('body')
 		.off('click', '#ready-button', readyHandle);
 	$('#welcome-msg')
-		.text('waiting for other players to ready up...').animateCss('pulse');
+		.text('waiting for other players to ready up...')
 	$('#ready-button')
-		.css('visibility', 'hidden').animateCss('fadeOut');
+		.css('visibility', 'hidden')
 	socket.emit('ready', 1);
 }
 
@@ -167,7 +167,7 @@ $('#game-container').on('click', '.answers', event => {
 		.off('click');
 	$('<h6>').attr('style', 'color: grey;')
 		.html('<small>waiting for everyone to make their selection...</small>')
-		.appendTo('#welcome-msg').animateCss('pulse');
+		.appendTo('#welcome-msg')
 	console.log('selection sent');
 	socket.emit('send-selection', selection);
 })
