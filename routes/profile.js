@@ -6,12 +6,23 @@ require('../db/config');
 const User = require('../models/user.js');
 
 router.get('/', (req, res, next) => {
-	const user = req.session.user;
-	if (!user) return res.redirect('/');
-	console.log(user)
-	res.render('profile', {
-		user
-	});
+
+
+  // using req.session for googleid to look up in mongo
+  // then retrieve DB stored user object
+  var userId = req.session.user.id;
+  User.find({
+      googleId: userId
+    }, (err, data) => {
+      if (err) {
+        throw err;
+      }
+      else {
+        const user = data[0];
+        console.log(user)
+        res.render('profile', {user});
+      }
+    })
 });
 
 router.get('/me', (req, res, next) => {
@@ -52,5 +63,18 @@ router.get('/me', (req, res, next) => {
 		return res.redirect('/game');
 	})
 });
+
+router.post('/me/update', (req, res, next) => {
+  var updatedUserName = req.body.newUserName;
+  User.findOneAndUpdate({
+    googleId: req.session.user.id
+  }, {
+    userName: updatedUserName
+  }, (err, success) => {
+    console.log(success); // logs updated user document from mongo
+    res.json({status: 200})
+  }
+  )
+})
 
 module.exports = router;
