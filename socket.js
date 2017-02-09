@@ -7,7 +7,7 @@ const User = require('./models/user.js')
 var readyUsers = 0;
 var answerObj = {};
 var list;
-var user = 'player';
+// var user = 'player';
 
 //being required in server.js
 module.exports = function(io) {
@@ -21,7 +21,7 @@ module.exports = function(io) {
       // gets name from client-side script
       User.find({
         googleId: id
-      }, (err, user) => {
+    }, (err, user) => {
         if (err) {
           throw (err);
         }
@@ -53,22 +53,33 @@ module.exports = function(io) {
           // maybe store questions into database
         //   console.log(list[0]); //displays first question in array
           var msg = list.shift();
-          answerObj.trueAns = msg.answer;
+          answerObj.trueAns = { answer: msg.answer };
           io.emit('question', msg.question);
         });
       }
     })
 
     socket.on('send-answer', answer => {
-        user += '1';
-      answerObj[user] = answer.answer;
+        // user += '1';
+      answerObj[answer.userName] = {
+          answer: answer.answer
+      };
       if (Object.keys(answerObj).length === 3) {
         io.emit('display-choices', answerObj);
       }
     })
 
     socket.on('send-selection', selection => {
-        if (selection.answer === answerObj.trueAns) {
+        console.log('answerObj @ selection.userName selected ', answerObj[selection.userName])
+        answerObj[selection.userName].selected = selection.selected
+        console.log('answerObj @ selection.userName selected ', answerObj)
+        // console.log(answerObj[selection.user], answerObj[selection.user].answer)
+        if (answerObj[selection.userName].selected === 2) {
+
+        }
+
+
+        if (selection.selected === answerObj.trueAns.answer) {
             console.log('ur right')
             var correct = 'ur right'
             // socket.boradcast.emit('correct', correct)
