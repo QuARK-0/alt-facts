@@ -12,6 +12,7 @@ var numRounds = 2;
 
 //being required in server.js
 module.exports = function(io) {
+
   io.on('connection', socket => {
     console.log('from socket.js: a user connected');
     // console.log(req.session.user);
@@ -36,18 +37,19 @@ module.exports = function(io) {
           //send message to user who just connected
           // var welcomeUser = `Welcome, ${socket.userName}!`;
           socket.emit('welcome-msg', user[0]); //sends the user object from mongoose
+
+          //sends message to anyone whos already connected
+          var welcomeJoined = `${user[0].userName} has Joined`;
+          socket.broadcast.emit('user-join', welcomeJoined);
         }
       })
-
-
-
     })
 
-    console.log('socket.js outside', socket.userName);
+    // console.log('socket.js outside', socket.userName);
 
     //sends message to anyone whos already connected
-    var welcomeJoined = 'A New User has Joined';
-    socket.broadcast.emit('user-join', welcomeJoined);
+    // var welcomeJoined = 'A New User has Joined';
+    // socket.broadcast.emit('user-join', welcomeJoined);
 
     socket.on('ready', num => {
       var msg;
@@ -69,6 +71,20 @@ module.exports = function(io) {
           msg = list.shift();
           answerObj.trueAns = { answer: msg.answer };
           io.emit('question', msg.question);
+
+          //timer code
+          var timerCount = 21;
+
+          var timerID = setInterval(timerFunc, 1000)
+
+          function timerFunc() {
+            timerCount -= 1;
+            if (timerCount < 0) {
+              clearInterval(timerID)
+              return
+            }
+            io.emit('timer', timerCount)
+          }
         });
       }
     })
@@ -97,6 +113,12 @@ module.exports = function(io) {
           // console.log('show-answers server side');
           io.emit('show-answers', userObj);
         }
+
+        if (selection.selected === answerObj.trueAns.answer) {
+        console.log('ur right')
+        var correct = 'ur right'
+        // socket.boradcast.emit('correct', correct)
+      }
     })
 
     socket.on('get-scores', user => {
