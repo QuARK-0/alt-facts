@@ -2,8 +2,10 @@
 
 ##### A Party Game
 
-## Team Members
-[Qian Chen](https://github.com/Hesai69)
+## Team Members & (notable role)
+[Qian Chen](https://github.com/Hesai69) (scrum master)
+[Kora Colasuonno](https://github.com/trashdaemon) (design mistress)
+
 
 ## Technology Used
 
