@@ -82,6 +82,11 @@ module.exports = function(io) {
           // maybe store questions into database
         //   console.log(list[0]); //displays first question in array
           msg = list.shift();
+          //this regex checks for html and removes all
+          //( / and anything inside <>
+          msg.answer = msg.answer.replace(/(<([^>]+)>)/ig, '')
+                        .replace(/[^a-z0-9-\s\']/gi, '').toLowerCase();
+
           answerObj.trueAns = { answer: msg.answer };
 
           io.emit('question', msg.question);
