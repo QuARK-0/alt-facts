@@ -96,7 +96,7 @@ socket.on('show-answers', obj => {
 	}
 	setTimeout(() => {
 		socket.emit('get-scores', user);
-	}, 5000);
+	}, 3000);
 });
 
 socket.on('send-scores', userObj => {
@@ -144,7 +144,7 @@ function readyHandle(evt) {
 		.text('waiting for other players to ready up...')
 	$('#ready-button')
 		.css('visibility', 'hidden')
-	socket.emit('ready', 1);
+	socket.emit('ready', user.userName);
 }
 
 $('body').on('click', '#ready-button', readyHandle);
@@ -173,13 +173,13 @@ function answerHandle(evt) {
 
 $('body').on('click', '.answer-button', answerHandle);
 
-$('#game-container').on('click', '.answers', event => {
+$('body').on('click', '.answers', event => {
 	var selection = {
 		userName: user.userName,
 		selected: $(event.target).text(),
 		id: $(event.target).attr('id')
 	}
-	console.log('value ', selection)
+	console.log('Clicked selection button', selection.selected)
 	$(event.target)
 		.siblings()
 		.not('h6')
