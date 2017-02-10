@@ -89,9 +89,9 @@ socket.on('display-choices', obj => {
 })
 
 socket.on('show-answers', obj => {
-    console.log('show-answers', obj)
+	console.log('show-answers', obj)
 	for (let _user in obj) {
-		let $li = $('<li class="is-small">').css('font-size', '0.5rem').text(`${_user}`);
+		let $li = $('<li class="is-small">').css({'font-size': '0.5rem', 'padding-bottom': '5px', 'list-style': 'none'}).text(`${_user}`);
 		$(`#${obj[_user].selected}`).append($li);
 	}
 	setTimeout(() => {
@@ -102,25 +102,52 @@ socket.on('show-answers', obj => {
 socket.on('send-scores', userObj => {
 	console.log('render user scores on page', userObj)
 	//render score on page
-    $('#ques-container').empty()
-    $('<div>').addClass('.container').attr('id', 'scores-div').appendTo('#ques-container')
-    $('#scores-div')
-        .html(`
-            <p class="control has-addons has-addons-centered is-large">
-                <input class="input is-primary is-disabled is-small" type="text" placeholder="current round:">
-                <a class="button is-disabled is-small">${userObj[user.userName].score}</a>
-            </p>
-            <p class="control has-addons has-addons-centered is-large">
-                <input class="input is-primary is-disabled is-small" type="text" placeholder="total:">
-                <a class="button is-disabled is-small">${userObj[user.userName].total}</a><br>
-            </p>
-            `)
-    // $('#scores-div').append('<p>')
-    //     .addClass('control has-addons has-addons-centered')
-    //     .html(`
-    //         <input class="input is-primary is-disabled" type="text" placeholder="total:">
-    //         <a class="button is-disabled">${userObj[user.googleId].total}</a><br>
-    //         `)
+	$('#ques-container').empty()
+	$('<div>').addClass('.container').attr('id', 'scores-div').appendTo('#ques-container')
+	var tableRows = '';
+	for (let item in userObj) {
+		tableRows += `
+		   <tr>
+			   <th>${item}</th>
+			   <td>${userObj[item].score}</td>
+			   <td>${userObj[item].total}</td>
+		   </tr>
+	   `
+   };
+	var scoreTable = `
+	   <div class="container">
+		   <table class="table is-small">
+			   <thead>
+				   <tr>
+					   <th>player</th>
+					   <th>this round</th>
+					   <th>total</th>
+				   </tr>
+			   </thead>
+			   <tbody>
+				   ${tableRows}
+			   </tbody>
+		   </table>
+	   </div>
+   `;
+	$('#scores-div').html(scoreTable);
+	// $('#scores-div')
+	//     .html(`
+	//         <p class="control has-addons has-addons-centered is-large">
+	//             <input class="input is-primary is-disabled is-small" type="text" placeholder="current round:">
+	//             <a class="button is-disabled is-small">${userObj[user.userName].score}</a>
+	//         </p>
+	//         <p class="control has-addons has-addons-centered is-large">
+	//             <input class="input is-primary is-disabled is-small" type="text" placeholder="total:">
+	//             <a class="button is-disabled is-small">${userObj[user.userName].total}</a><br>
+	//         </p>
+	//         `)
+	// $('#scores-div').append('<p>')
+	//     .addClass('control has-addons has-addons-centered')
+	//     .html(`
+	//         <input class="input is-primary is-disabled" type="text" placeholder="total:">
+	//         <a class="button is-disabled">${userObj[user.googleId].total}</a><br>
+	//         `)
 
 	$('body')
 		.on('click', '#ready-button', readyHandle);
@@ -133,7 +160,36 @@ socket.on('send-scores', userObj => {
 socket.on('final-round', userObj => {
 	console.log('this is final round score, winner is ....')
 	//render final score on page
-
+	$('#ques-container').empty()
+	$('<div>').addClass('.container').attr('id', 'scores-div').appendTo('#ques-container')
+	var tableRows = '';
+	for (let item in userObj) {
+		tableRows += `
+		   <tr>
+			   <th>${item}</th>
+			   <td>${userObj[item].score}</td>
+			   <td>${userObj[item].total}</td>
+		   </tr>
+	   `
+   };
+	var scoreTable = `
+	   <div class="container">
+		   <table class="table is-small">
+			   <thead>
+				   <tr>
+					   <th>player</th>
+					   <th>this round</th>
+					   <th>total</th>
+				   </tr>
+			   </thead>
+			   <tbody>
+				   ${tableRows}
+			   </tbody>
+		   </table>
+		   <a href="/" class="button is-danger" id="new-game-btn">new game</a>
+	   </div>
+   `;
+	$('#scores-div').html(scoreTable);
 	//render new game button
 });
 
@@ -150,8 +206,8 @@ function readyHandle(evt) {
 $('body').on('click', '#ready-button', readyHandle);
 
 function answerHandle(evt) {
-    var answerInput = $('.answer-input').val()
-    answerInput.toLowerCase()
+	var answerInput = $('.answer-input').val()
+	answerInput.toLowerCase()
 	var userAnswer = {
 
 		userName: user.userName, //pulls name from global user object
@@ -198,3 +254,16 @@ $('body').on('click', '.answers', event => {
 //   socket.disconnect();
 //   window.location.pathname = '/';
 // })
+
+socket.on('disconnect-all', () => {
+	socket.disconnect();
+	user = {};
+	$('#game-container').html('you have been disconnected<br>')
+	$('<a>').addClass('button')
+		.attr('href', '/').text('new game')
+			.appendTo('#game-container')
+	$.get('/disconnect', res => {
+		console.log(res)
+	})
+
+})

@@ -175,6 +175,14 @@ module.exports = function(io) {
 			if (readyUsers > connectedUsers) {
 				readyUsers = connectedUsers;
 			}
+			if (connectedUsers < 2) {
+				io.emit('disconnect-all')
+				readyUsers = 0;
+				userObj = {};
+				answerObj = {};
+				list = [];
+				numRounds = 5;
+			}
 			console.log('connected users', connectedUsers);
 			console.log('ready users', readyUsers);
 		})
