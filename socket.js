@@ -10,6 +10,7 @@ var userObj = {};
 var answerObj = {};
 var list = [];
 var numRounds = 5;
+var readyRound = 0;
 
 //being required in server.js
 module.exports = function(io) {
@@ -146,26 +147,16 @@ module.exports = function(io) {
 		})
 
 		socket.on('get-scores', user => {
-			// console.log('GET SCORES', userObj)
-			// console.log(userObj[user.googleId].selected)
-			var round = 0;
-			if (userObj[user.userName].selected === answerObj.trueAns.answer) {
-				round += 1000;
-			}
-			for (let player in userObj) {
-				// console.log(userObj[player].selected)
-				if (userObj[user.userName].answer === userObj[player].selected && !userObj[user]) {
-					round += 1000;
-				}
-			}
-			userObj[user.userName].score = round;
-			userObj[user.userName].total += round;
-			readyUsers = 0;
-			console.log('Num Questions in list ', list.length)
-			if (list.length) {
-				socket.broadcast.emit('send-scores', userObj)
-			} else {
-				socket.broadcast.emit('final-round', userObj)
+      readyRound++;
+
+        calcScore(user);
+      if (list.length && readyRound === 2) {
+				io.emit('send-scores', userObj)
+        readyRound = 0;
+			} else if (list.length === 0 && readyRound === 2) {
+        // calcScore(user);
+				io.emit('final-round', userObj)
+        readyRound = 0;
 			}
 		});
 
@@ -182,12 +173,37 @@ module.exports = function(io) {
 				answerObj = {};
 				list = [];
 				numRounds = 5;
+        readyRound = 0;
 			}
 			console.log('connected users', connectedUsers);
 			console.log('ready users', readyUsers);
 		})
 
 	})
+
+  function calcScore(user) {
+    // console.log('GET SCORES', userObj)
+    // console.log(userObj[user.googleId].selected)
+    var round = 0;
+
+    if (userObj[user.userName].selected === answerObj.trueAns.answer) {
+      round += 1000;
+    }
+    for (let player in userObj) {
+      console.log('player', player, 'user.username', user.userName)
+      if ( (userObj[user.userName].answer === userObj[player].selected) && (user.userName !== player) ) {
+        console.log('select others answer')
+        round += 1000;
+      }
+    }
+    userObj[user.userName].score = round;
+    userObj[user.userName].total += round;
+    console.log('user score', userObj[user.userName].score)
+    console.log('user total', userObj[user.userName].total)
+
+    readyUsers = 0;
+    console.log('Num Questions in list ', list.length)
+  }
 
 	function haveAllUsersSelected(userObj) {
 
