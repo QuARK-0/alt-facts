@@ -40,3 +40,10 @@ Scoring is 1000 points for selecting the correct answer and 1000 points for ever
 
 ### Approach
 
+This was our first group project at GA made in a sprint of 4 days. This was all of our first experience with [Socket.io](http://socket.io/) and this was an ambitious attempt to create a real-time party game!
+
+## Next Steps
+
+### Unsolved Issues
+
+### Planned Features
