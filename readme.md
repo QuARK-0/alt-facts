@@ -58,6 +58,8 @@ Lastly, as to working in our first group environment, it was surprisingly easy t
 - JQuery extend of Animate.css conflicts with game flow
 - '#' that appends to /game path
 - Perfect github workflow (so many merge conflicts?!)
+- Sometimes username who picks answer does not appear for everyone 
+- Only 1 person can be connected to socket to change username
 
 
 ### Planned Features
