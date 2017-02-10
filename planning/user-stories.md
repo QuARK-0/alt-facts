@@ -30,11 +30,11 @@
 
 ##User Stories:
 
-As a user, I want to sign-in so that I can play AF.
-As a user, I want to play AF with my friends.
-As a user, I want to play with other users if my friends are not available.
-As a user, I want to be able to select a category.
-As a user, I want to be able to input my fake answer.
-As a user, I want to select the correct answer.
-As a user, I want to save match history details to my account.
-As a user, I want to chat with my opponents.
+- As a user, I want to sign-in so that I can play AF.
+- As a user, I want to play AF with my friends.
+- As a user, I want to play with other users if my friends are not available.
+- As a user, I want to be able to select a category.
+- As a user, I want to be able to input my fake answer.
+- As a user, I want to select the correct answer.
+- As a user, I want to save match history details to my account.
+- As a user, I want to chat with my opponents.
