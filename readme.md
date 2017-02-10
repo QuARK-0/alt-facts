@@ -48,7 +48,7 @@ While some groups prefer to split work between front and back-end. Our group pre
 
 We also came across strange bugs that took hours to solve due to inexperience with socket.io. Basic aspects of Javascript such as adding and removing event listeners were bugging due to the fundamental nature of "real-time" communication.
 
-Lastly, as to working in our first group environment, it was surprisingly easy to adapt and trust each group member to their individual tasks. While the experience was not entirely frustration free, 
+Lastly, as to working in our first group environment, it was surprisingly easy to adapt and trust each group member to their individual tasks. While the experience was not entirely frustration free, not one member was unwilling to compromise or try the suggesstions of another group member.
 
 ## Next Steps
 
@@ -67,6 +67,8 @@ Lastly, as to working in our first group environment, it was surprisingly easy t
 - Save game on disconnect and restore on reconnect
 - Chat implementation for friendly "trash talk" to your opponent
 - Better questions that more effectively incentives fun responses from players
+- Better user notification
+- Name of which user clicked which answer does not always display
 - Match history and archive score on profile page
 - Delete user account
 - More game modes
