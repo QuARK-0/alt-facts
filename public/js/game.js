@@ -91,7 +91,9 @@ socket.on('display-choices', obj => {
 socket.on('show-answers', obj => {
     console.log('show-answers', obj)
 	for (let _user in obj) {
-		let $li = $('<li class="is-small">').css('font-size', '0.5rem').text(`${_user}`);
+		let $li = $('<li class="is-small">')
+            .css({'font-size': '0.5rem', 'list-style': 'none', 'padding-bottom': '10px'})
+            .text(`${_user}`);
 		$(`#${obj[_user].selected}`).append($li);
 	}
 	setTimeout(() => {
@@ -103,18 +105,44 @@ socket.on('send-scores', userObj => {
 	console.log('render user scores on page', userObj)
 	//render score on page
     $('#ques-container').empty()
-    $('<div>').addClass('.container').attr('id', 'scores-div').appendTo('#ques-container')
-    $('#scores-div')
-        .html(`
-            <p class="control has-addons has-addons-centered is-large">
-                <input class="input is-primary is-disabled is-small" type="text" placeholder="current round:">
-                <a class="button is-disabled is-small">${userObj[user.userName].score}</a>
-            </p>
-            <p class="control has-addons has-addons-centered is-large">
-                <input class="input is-primary is-disabled is-small" type="text" placeholder="total:">
-                <a class="button is-disabled is-small">${userObj[user.userName].total}</a><br>
-            </p>
-            `)
+    $('<div>').addClass('container').attr('id', 'scores-div').appendTo('#ques-container')
+    var tableRows
+    for (let item in userObj) {
+        tableRows += `
+            <tr>
+                <th>${item}</th>
+                <td>${userObj[item].score}</td>
+                <td>${userObj[item].total}</td>
+            </tr>
+        `
+    }
+    var scoreTable = `
+        <div class="container">
+            <table class="table is-small">
+                <thead>
+                    <tr>
+                        <th>player</th>
+                        <th>this round</th>
+                        <th>total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${tableRows}
+                </tbody>
+            </table>
+        </div>
+    `
+    $('#scores-div').html(scoreTable);
+        // .html(`
+        //     <p class="control has-addons has-addons-centered is-large">
+        //         <input class="scorer input is-primary is-disabled is-small" type="text" placeholder="current round:">
+        //         <a class="button is-disabled is-small">${userObj[user.userName].score}</a>
+        //     </p>
+        //     <p class="control has-addons has-addons-centered is-large">
+        //         <input class="scorer input is-primary is-disabled is-small" type="text" placeholder="total:">
+        //         <a class="button is-disabled is-small">${userObj[user.userName].total}</a><br>
+        //     </p>
+        //     `)
     // $('#scores-div').append('<p>')
     //     .addClass('control has-addons has-addons-centered')
     //     .html(`
