@@ -22,6 +22,8 @@ Node.js | Express | Socket.io | MongoDB / Mongoose | Handlebars.js | JSService.i
 
 ## Getting Started
 
+If you have ever played Psych or Fibbage, this is a similar game.
+
 Gather 2 friends, login and click the ready button.
 
 When a question is displayed, enter a believable "fake" answer.
@@ -44,8 +46,20 @@ Note that the game auto-disconnects any user attempting to join the game once th
 
 This was our first group project at GA made in a sprint of 4 days. This was all of our first experience with [Socket.io](http://socket.io/) and this was an ambitious attempt to create a real-time party game!
 
+We came up with the appropriate user stories 
+
+While some groups prefer to split work between front and back-end. Our group preferred to split tasks by feature and be responsible for output entirely for that feature from front to end.
+
 ## Next Steps
 
 ### Unsolved Issues
+- Timer disappears after first question
+- Crude disconnection handling of users attempting to join full game
+- 
 
 ### Planned Features
+- Multiple rooms/game instances
+- Chat for 
+- More fun questions
+- Match history and archive score on profile page
+- 
