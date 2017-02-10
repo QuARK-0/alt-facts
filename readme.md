@@ -2,6 +2,9 @@
 
 ##### A Party Game
 
+## Team Members
+[Qian Chen](https://github.com/Hesai69)
+
 ## Technology Used
 
 #### Front End: 
@@ -20,4 +23,13 @@ The aim of the game is not only to answer the trivia question correctly but also
 
 Scoring is 1000 points for selecting the correct answer and 1000 points for every opponent that selects your "fake" answer.
 
+### Project Planning
+
+[User Stories](../master/planning/user-stories.md)
+
+[Api Routes](../master/planning/rest-api-routes.md)
+
+[Wireframes](../master/planning/wireframes)
+
+### Approach
 
