@@ -67,21 +67,32 @@ module.exports = function(io) {
 
 		socket.on('ready', user => {
 			var msg;
+			var questions = 6;
+			var currentQ;
 			readyUsers++
       userObj[user].selected = null;
 			console.log('READY Users >>> for ', readyUsers, 'LIST size ', list.length)
 			if (readyUsers === 2 && list.length > 0) {
 				console.log('READY Users inside if() ', readyUsers)
 				msg = list.shift();
+				// currentQ = questions - list.length;
 				answerObj = {};
+				msg.answer = msg.answer.replace(/(<([^>]+)>)/ig, '')
+					.replace(/[^a-z0-9-\s\']/gi, '').toLowerCase();
 				answerObj.trueAns = {
 					answer: msg.answer
 				};
-				io.emit('question', msg.question)
+				var qData = {
+					question: msg.question,
+					number: currentQ
+				}
+				io.emit('question', qData)
 			} else
 			if (readyUsers === 2 && list.length === 0) {
 				request(`http://jservice.io/api/random?count=${numRounds}`, (err, response, body) => {
 					list = JSON.parse(body);
+					// currentQ = questions - list.length;
+
 					// console.log('LIST >>> ', list)
 					// maybe store questions into database
 					//   console.log(list[0]); //displays first question in array
@@ -92,7 +103,11 @@ module.exports = function(io) {
 						answer: msg.answer
 					};
 
-					io.emit('question', msg.question);
+					var qData = {
+						question: msg.question,
+						number: currentQ
+					}
+					io.emit('question', qData)
 
 					//timer code
 					var timerCount = 21;

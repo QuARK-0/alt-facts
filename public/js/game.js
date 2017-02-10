@@ -1,18 +1,8 @@
 // console.log('hi from game.js');
-
 var socket = io();
 
 var user;
-
-
-$.fn.extend({
-	animateCss: function(animationName) {
-		var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-		this.addClass('animated ' + animationName).one(animationEnd, function() {
-			$(this).removeClass('animated ' + animationName);
-		});
-	}
-});
+var currentQ = 1;
 
 
 console.log('my name from game.js', userGId); // logged in session user
@@ -35,13 +25,15 @@ socket.on('user-join', msg => {
 })
 
 socket.on('question', question => {
-
+	console.log(question)
 	$('#ques-container').remove();
 
 	$('.connected-users')
 		.css('visibility', 'hidden')
 	$('#welcome-msg')
-		.text(question)
+		.html(`question ${currentQ}/5<br><br>
+			${question.question}
+			`);
 	$('#welcome-msg')
 		.after(`
       <div id="ques-container" class="container">
@@ -51,6 +43,7 @@ socket.on('question', question => {
           </p>
       </div>
       `)
+	  currentQ++
 })
 
 socket.on('timer', num => {
@@ -258,6 +251,7 @@ $('body').on('click', '.answers', event => {
 socket.on('disconnect-all', () => {
 	socket.disconnect();
 	user = {};
+	currentQ = 1;
 	$('#game-container').html('you have been disconnected<br>')
 	$('<a>').addClass('button')
 		.attr('href', '/').text('new game')
