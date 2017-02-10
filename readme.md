@@ -1,36 +1,9 @@
-# Boilerplate
+# Alternative Facts - The Game :question::question:
 
-# Usage
+##### A Party Game
 
-# Database
+#### Front End: 
+HTML | CSS | Javascript | jQuery | AJAX | Bulma.io
 
-`db/config.js` configures the app to work with Mongoose
-
-To create seed data, write your code in `db/seed.js`
-Then run the script with:
-
-```
-$ npm run seed
-```
-
-# Style
-
-Standard is a JS module for creating a consistent style.
-
-Run it with 
-
-```
-$ npm run test
-```
-
-When possible standard will fix some styles automatically.
-Other errors will be listed in the terminal.
-
-# Environmental Variables
-
-Create a `.env` for storing environmental variables. 
-They'll be automatically loaded at the top of `server.js`
-
-# Sessions
-
-Data can be set and get with `req.session`
+#### Back End:
+Node.js | Express | Socket.io | MongoDB / Mongoose | Handlebars.js 
