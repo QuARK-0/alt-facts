@@ -4,7 +4,12 @@
 
 ## Team Members & (notable role)
 [Qian Chen](https://github.com/Hesai69) (scrum master)
+
 [Kora Colasuonno](https://github.com/trashdaemon) (design mistress)
+
+[Ritwik Ruia](https://github.com/ritz1337)
+
+[Andrew Maidah](https://github.com/amaidah)
 
 
 ## Technology Used
