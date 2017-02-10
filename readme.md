@@ -67,8 +67,9 @@ Lastly, as to working in our first group environment, it was surprisingly easy t
 - Save game on disconnect and restore on reconnect
 - Chat implementation for friendly "trash talk" to your opponent
 - Better questions that more effectively incentives fun responses from players
-- Better user notification
+- Better user notification after submitting "fake answer"
 - Name of which user clicked which answer does not always display
+- Randomize and better display answer choices
 - Match history and archive score on profile page
 - Delete user account
 - More game modes
