@@ -151,9 +151,23 @@ socket.on('send-scores', userObj => {
 });
 
 socket.on('final-round', userObj => {
-	console.log('this is final round score, winner is ....')
+  console.log('this is final round score, winner is ....')
+  var result = '';
+  var total = userObj[user.userName].total;
+  for (let player in userObj) {
+    console.log( 'user.userName ', user.userName, '>>> userObj]player] ', userObj[player])
+    if ( ( userObj[player].total === total ) && ( userObj[player] !== user.userName) ) {
+      result = 'are tied';
+    } else if ( ( userObj[player].total > total ) && ( userObj[player] !== user.userName) )  {
+      result = 'lose';
+      break;
+    } else {
+      result = 'win';
+    }
+  }
 	//render final score on page
 	$('#ques-container').empty()
+  $('<div>').attr('id', 'results').text(`You ${result}!`).appendTo('#ques-container');
 	$('<div>').addClass('.container').attr('id', 'scores-div').appendTo('#ques-container')
 	var tableRows = '';
 	for (let item in userObj) {
