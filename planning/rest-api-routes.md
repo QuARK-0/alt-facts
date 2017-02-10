@@ -14,3 +14,9 @@ submit button POST -> '/game/:userID/submit'
 (show all answers)
 
 click on answer POST -> '/game/:userID/answer' (selected answer mongoose id gets passed as body data)
+
+
+
+
+
+ 

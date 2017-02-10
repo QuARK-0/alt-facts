@@ -50,3 +50,7 @@ header {
     margin: 0 auto;
     width: 90%;
 }
+
+#scores-div {
+    height: 20%;
+}

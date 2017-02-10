@@ -1,17 +1,8 @@
 // console.log('hi from game.js');
-
 var socket = io();
 
 var user;
-
-$.fn.extend({
-    animateCss: function (animationName) {
-        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-        this.addClass('animated ' + animationName).one(animationEnd, function() {
-            $(this).removeClass('animated ' + animationName);
-        });
-    }
-});
+var currentQ = 1;
 
 
 console.log('my name from game.js', userGId); // logged in session user
@@ -19,7 +10,7 @@ socket.emit('send-id', userGId);
 
 socket.on('welcome-msg', userObj => {
 	user = userObj; // saves user object to the global user variable
-    // $('.hero-head').
+	// $('.hero-head').
 	$('#welcome-msg')
 		.text(`Welcome, ${user.userName}!`);
 	$('#welcome-msg')
@@ -34,15 +25,17 @@ socket.on('user-join', msg => {
 })
 
 socket.on('question', question => {
-
-  $('#ques-container').remove();
+	console.log(question)
+	$('#ques-container').remove();
 
 	$('.connected-users')
 		.css('visibility', 'hidden')
 	$('#welcome-msg')
-		.text(question)
-  $('#welcome-msg')
-    .after(`
+		.html(`question ${currentQ}/5<br><br>
+			${question.question}
+			`);
+	$('#welcome-msg')
+		.after(`
       <div id="ques-container" class="container">
           <p class="control has-addons has-addons-centered">
               <input class="answer-input input" type="text" placeholder="your answer">
@@ -50,6 +43,7 @@ socket.on('question', question => {
           </p>
       </div>
       `)
+	  currentQ++
 })
 
 socket.on('timer', num => {
@@ -58,7 +52,7 @@ socket.on('timer', num => {
 	$('.timer-value').text(num);
 	if (num === 0) {
 		var userAnswer = {
-			userName: user.googleId, //pulls name from global user object
+			userName: user.userName, //pulls name from global user object
 			answer: 'OMGUHAD20'
 		};
 		console.log('user answer ', userAnswer);
@@ -66,7 +60,7 @@ socket.on('timer', num => {
 		$('.answer-input').val('');
 		$('.answer-input').css('display', 'none')
 		$('.answer-button').css('visibility', 'hidden');
-    // $('.timer').animateCss('fadeOut').css('visibility', 'hidden')
+		// $('.timer').animateCss('fadeOut').css('visibility', 'hidden')
 		$('.timer').css('visibility', 'hidden')
 		socket.emit('send-answer', userAnswer);
 	}
@@ -74,7 +68,6 @@ socket.on('timer', num => {
 })
 
 socket.on('display-choices', obj => {
-
 	// $('.timer').css('visibility', 'hidden') // not working
 	var keyNames = Object.keys(obj);
 
@@ -82,40 +75,129 @@ socket.on('display-choices', obj => {
 	//to visibility hidden on line 38
 	for (var i = 0; i < keyNames.length; i++) {
 		// $('#welcome-msg').after(`
-  //       <button class="button answers animated fadeIn" id="a${i}">${obj[keyNames[i]].answer}</button>
-  //       `)
-    $('#ques-container').append( $('<div>').attr('id', `${obj[keyNames[i]].answer}`).append( $('<button>').attr('class', 'button answers').text(`${obj[keyNames[i]].answer}`) ) );
+		//       <button class="button answers animated fadeIn" id="a${i}">${obj[keyNames[i]].answer}</button>
+		//       `)
+		$('#ques-container').append($('<div>').attr('id', `${obj[keyNames[i]].answer}`).append($('<button>').attr('class', 'button answers').text(`${obj[keyNames[i]].answer}`)));
 	}
 })
 
 socket.on('show-answers', obj => {
-  for (let user in obj) {
-    console.log('show-answers', obj[user].selected)
-    let $li = $('<li>').text(`${user}`);
-    $(`#${obj[user].selected}`).append( $li );
-  }
-  setTimeout( () => {
-    socket.emit('get-scores', user);
-  }, 3000);
+	console.log('show-answers', obj)
+	for (let _user in obj) {
+		let $li = $('<li class="is-small">').css({'font-size': '0.5rem', 'padding-bottom': '5px', 'list-style': 'none'}).text(`${_user}`);
+		$(`#${obj[_user].selected}`).append($li);
+	}
+	setTimeout(() => {
+		socket.emit('get-scores', user);
+	}, 3000);
 });
 
 socket.on('send-scores', userObj => {
-  console.log('render user scores on page', userObj)
-  //render score on page
+	console.log('render user scores on page', userObj)
+	//render score on page
+	$('#ques-container').empty()
+	$('<div>').addClass('.container').attr('id', 'scores-div').appendTo('#ques-container')
+	var tableRows = '';
+	for (let item in userObj) {
+		tableRows += `
+		   <tr>
+			   <th>${item}</th>
+			   <td>${userObj[item].score}</td>
+			   <td>${userObj[item].total}</td>
+		   </tr>
+	   `
+   };
+	var scoreTable = `
+	   <div class="container">
+		   <table class="table is-small">
+			   <thead>
+				   <tr>
+					   <th>player</th>
+					   <th>this round</th>
+					   <th>total</th>
+				   </tr>
+			   </thead>
+			   <tbody>
+				   ${tableRows}
+			   </tbody>
+		   </table>
+	   </div>
+   `;
+	$('#scores-div').html(scoreTable);
+	// $('#scores-div')
+	//     .html(`
+	//         <p class="control has-addons has-addons-centered is-large">
+	//             <input class="input is-primary is-disabled is-small" type="text" placeholder="current round:">
+	//             <a class="button is-disabled is-small">${userObj[user.userName].score}</a>
+	//         </p>
+	//         <p class="control has-addons has-addons-centered is-large">
+	//             <input class="input is-primary is-disabled is-small" type="text" placeholder="total:">
+	//             <a class="button is-disabled is-small">${userObj[user.userName].total}</a><br>
+	//         </p>
+	//         `)
+	// $('#scores-div').append('<p>')
+	//     .addClass('control has-addons has-addons-centered')
+	//     .html(`
+	//         <input class="input is-primary is-disabled" type="text" placeholder="total:">
+	//         <a class="button is-disabled">${userObj[user.googleId].total}</a><br>
+	//         `)
 
-  $('body')
-         .on('click', '#ready-button', readyHandle);
-    $('#welcome-msg')
-        .text('waiting for other players to ready up...');
-    $('#ready-button')
-        .css('visibility', 'visible');
+	$('body')
+		.on('click', '#ready-button', readyHandle);
+	$('#welcome-msg')
+		.text('waiting for other players to ready up...');
+	$('#ready-button')
+		.css('visibility', 'visible');
 });
 
 socket.on('final-round', userObj => {
   console.log('this is final round score, winner is ....')
-  //render final score on page
-
-  //render new game button
+  var result = '';
+  var total = userObj[user.userName].total;
+  for (let player in userObj) {
+    console.log( 'user.userName ', user.userName, '>>> userObj]player] ', userObj[player])
+    if ( ( userObj[player].total === total ) && ( userObj[player] !== user.userName) ) {
+      result = 'are tied';
+    } else if ( ( userObj[player].total > total ) && ( userObj[player] !== user.userName) )  {
+      result = 'lose';
+      break;
+    } else {
+      result = 'win';
+    }
+  }
+	//render final score on page
+	$('#ques-container').empty()
+  $('<div>').attr('id', 'results').text(`You ${result}!`).appendTo('#ques-container');
+	$('<div>').addClass('.container').attr('id', 'scores-div').appendTo('#ques-container')
+	var tableRows = '';
+	for (let item in userObj) {
+		tableRows += `
+		   <tr>
+			   <th>${item}</th>
+			   <td>${userObj[item].score}</td>
+			   <td>${userObj[item].total}</td>
+		   </tr>
+	   `
+   };
+	var scoreTable = `
+	   <div class="container">
+		   <table class="table is-small">
+			   <thead>
+				   <tr>
+					   <th>player</th>
+					   <th>this round</th>
+					   <th>total</th>
+				   </tr>
+			   </thead>
+			   <tbody>
+				   ${tableRows}
+			   </tbody>
+		   </table>
+		   <a href="/" class="button is-danger" id="new-game-btn">new game</a>
+	   </div>
+   `;
+	$('#scores-div').html(scoreTable);
+	//render new game button
 });
 
 function readyHandle(evt) {
@@ -125,16 +207,18 @@ function readyHandle(evt) {
 		.text('waiting for other players to ready up...')
 	$('#ready-button')
 		.css('visibility', 'hidden')
-	socket.emit('ready', 1);
+	socket.emit('ready', user.userName);
 }
 
 $('body').on('click', '#ready-button', readyHandle);
 
 function answerHandle(evt) {
+	var answerInput = $('.answer-input').val()
+	answerInput.toLowerCase()
 	var userAnswer = {
 
-		userName: user.googleId, //pulls name from global user object
-		answer: $('.answer-input').val()
+		userName: user.userName, //pulls name from global user object
+		answer: answerInput
 	};
 	console.log('user answer ', userAnswer);
 	// $('body')
@@ -152,13 +236,13 @@ function answerHandle(evt) {
 
 $('body').on('click', '.answer-button', answerHandle);
 
-$('#game-container').on('click', '.answers', event => {
+$('body').on('click', '.answers', event => {
 	var selection = {
-		userName: user.googleId,
+		userName: user.userName,
 		selected: $(event.target).text(),
 		id: $(event.target).attr('id')
 	}
-	console.log('value ', selection)
+	console.log('Clicked selection button', selection.selected)
 	$(event.target)
 		.siblings()
 		.not('h6')
@@ -177,3 +261,17 @@ $('#game-container').on('click', '.answers', event => {
 //   socket.disconnect();
 //   window.location.pathname = '/';
 // })
+
+socket.on('disconnect-all', () => {
+	socket.disconnect();
+	user = {};
+	currentQ = 1;
+	$('#game-container').html('you have been disconnected<br>')
+	$('<a>').addClass('button')
+		.attr('href', '/').text('new game')
+			.appendTo('#game-container')
+	$.get('/disconnect', res => {
+		console.log(res)
+	})
+
+})
