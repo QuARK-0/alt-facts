@@ -32,7 +32,7 @@ module.exports = function(io) {
 
 
 		socket.on('send-id', id => {
-			console.log(id)
+			// console.log(id)
 
 			// gets name from client-side script
 			User.find({
@@ -68,9 +68,9 @@ module.exports = function(io) {
 		socket.on('ready', num => {
 			var msg;
 			readyUsers++
-			console.log('READY Users >>> for ', readyUsers, 'LIST size ', list.length)
+			// console.log('READY Users >>> for ', readyUsers, 'LIST size ', list.length)
 			if (readyUsers === 2 && list.length > 0) {
-				console.log('READY Users inside if() ', readyUsers)
+				// console.log('READY Users inside if() ', readyUsers)
 				msg = list.shift();
 				answerObj = {};
 				answerObj.trueAns = {
@@ -121,7 +121,7 @@ module.exports = function(io) {
 			answerObj[answer.userName] = {
 				answer: answer.answer
 			};
-            console.log('answerObj ', answerObj)
+            // console.log('answerObj ', answerObj)
 			userObj[answer.userName].answer = answer.answer;
 			// console.log('ANSWEROBJECT >>>', answerObj)
 
@@ -146,8 +146,8 @@ module.exports = function(io) {
 
 			if (selection.selected === answerObj.trueAns.answer) {
 
-				console.log('ur right')
-				var correct = 'ur right'
+				// console.log('ur right')
+				// var correct = 'ur right'
 				// socket.boradcast.emit('correct', correct)
 			}
 		})
@@ -168,11 +168,11 @@ module.exports = function(io) {
 			userObj[user.userName].score = round;
 			userObj[user.userName].total += round;
 			readyUsers = 0;
-			console.log('Num Questions in get-scores ', list.length)
+			// console.log('Num Questions in get-scores ', list.length)
 			if (list.length) {
-				socket.broadcast.emit('send-scores', userObj)
+				io.emit('send-scores', userObj)
 			} else {
-				socket.broadcast.emit('final-round', userObj)
+				io.emit('final-round', userObj)
 			}
 		});
 
