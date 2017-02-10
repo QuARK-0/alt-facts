@@ -42,6 +42,8 @@ Note that the game auto-disconnects any user attempting to join the game once th
 
 [Wireframes](../master/planning/wireframes)
 
+[Waffle Planning Board](https://waffle.io/QuARK-0/alt-facts)
+
 ### Approach
 
 This was our first group project at GA made in a sprint of 4 days. This was all of our first experience with [Socket.io](http://socket.io/) and this was an ambitious attempt to create a real-time party game!
@@ -55,11 +57,11 @@ While some groups prefer to split work between front and back-end. Our group pre
 ### Unsolved Issues
 - Timer disappears after first question
 - Crude disconnection handling of users attempting to join full game
-- 
+
 
 ### Planned Features
 - Multiple rooms/game instances
 - Chat for 
 - More fun questions
 - Match history and archive score on profile page
-- 
+
