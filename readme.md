@@ -46,11 +46,11 @@ Note that the game auto-disconnects any user attempting to join the game once th
 
 ### Approach
 
-This was our first group project at GA made in a sprint of 4 days. This was all of our first experience with [Socket.io](http://socket.io/) and this was an ambitious attempt to create a real-time party game!
+This was our first group project at GA made in a sprint of 4 days. To make this an even more ambitious undertaking, not one member had any prior experience with [Socket.io](http://socket.io/).
 
-We came up with the appropriate user stories 
+We came up with the appropriate user stories, wireframed a simple design and set to work.
 
-While some groups prefer to split work between front and back-end. Our group preferred to split tasks by feature and be responsible for output entirely for that feature from front to end.
+While some groups prefer to split work between front and back-end. Our group preferred to split tasks by feature and be responsible for output entirely for that feature from front to end. In practice, this did not exactly work the way we intended due to our inexperience with socket.io. We were unable to modularize socket.js code and thus, as as we each wrote features, many merge conflicts occured. We had discussed and set up our ideal workflow surrounding github including detailed comments in our code. We realized as soon as one bug occurred, workflow is thrown out the window and a fixation on the bug occurs.
 
 ## Next Steps
 
@@ -61,7 +61,10 @@ While some groups prefer to split work between front and back-end. Our group pre
 
 ### Planned Features
 - Multiple rooms/game instances
-- Chat for 
-- More fun questions
+- Game/room lobby
+- Save game on disconnect and restore on reconnect
+- Modularize socket.io handler
+- Chat implementation for friendly "trash talk" to your opponent
+- Better questions that more accurately draw out fun responses from players
 - Match history and archive score on profile page
 
