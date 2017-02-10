@@ -57,18 +57,25 @@ While some groups prefer to split work between front and back-end. Our group pre
 ### Unsolved Issues
 - Timer disappears after first question
 - Crude disconnection handling of users attempting to join full game
-- Animate.css conflicts with styling
+- JQuery extend of Animate.css conflicts with game flow
 - '#' that appends to /game path
 
 
 ### Planned Features
+- Modularize socket.io handler
 - Multiple rooms/game instances
 - Game/room lobby
 - Save game on disconnect and restore on reconnect
-- Modularize socket.io handler
 - Chat implementation for friendly "trash talk" to your opponent
 - Better questions that more effectively incentives fun responses from players
 - Match history and archive score on profile page
 - Delete user account
-- 
+- More game modes
+- Segment question categories
+- Ability to choose game length
+- Clean up code / move away from global variables
+- Add JSDocs
+- More color / style
+- Logo / branding
+- Improved mobile support (allow easy access to profile page)
 
