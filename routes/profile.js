@@ -6,8 +6,7 @@ require('../db/config');
 const User = require('../models/user.js');
 
 router.get('/', (req, res, next) => {
-
-
+  if (!req.session.user) return res.redirect('/');
   // using req.session for googleid to look up in mongo
   // then retrieve DB stored user object
   var userId = req.session.user.id;
