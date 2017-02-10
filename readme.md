@@ -30,6 +30,8 @@ The aim of the game is not only to answer the trivia question correctly but also
 
 Scoring is 1000 points for selecting the correct answer and 1000 points for every opponent that selects your "fake" answer.
 
+Note that the game auto-disconnects any user attempting to join the game once the room is full. (current capacity is 2 players)
+
 ### Project Planning
 
 [User Stories](../master/planning/user-stories.md)
