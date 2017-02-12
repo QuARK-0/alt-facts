@@ -22,6 +22,8 @@ Node.js | Express | Socket.io | MongoDB / Mongoose | Handlebars.js | JSService.i
 
 ## Getting Started
 
+To test as one person: Open two browser windows side by side.
+
 If you have ever played Psych or Fibbage, this is a similar game.
 
 Gather 2 friends, login and click the ready button. When a question is displayed, enter a believable "fake" answer. The aim of the game is not only to answer the trivia question correctly but also to trick your opponent into selecting your "fake" answer. 
